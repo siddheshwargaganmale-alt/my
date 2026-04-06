@@ -1,0 +1,20 @@
+{
+  "name": "chathub",
+  "version": "1.0.0",
+  "description": "ChatHub - Room-Based Messenger clone of ipchat.in",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.8.1",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "author": "",
+  "license": "MIT"
+}
