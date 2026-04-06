@@ -37,7 +37,7 @@
 
   // Init socket
   function initSocket() {
-    socket = io('http://localhost:3000');
+    socket = io();
 
     socket.on('connect', () => {
       console.log('Connected to server');
