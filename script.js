@@ -85,25 +85,16 @@
   });
 
   function joinRoom() {
-  const username = usernameInput.value.trim();
-  const room = roomInput.value.trim();
-
-  if (!username || !room) {
-    showJoinError('Username and room code required');
-    return;
-  }
-
-  joinError.textContent = '';
-  joinBtn.disabled = true;
-  joinBtn.querySelector('span').textContent = 'CONNECTING…';
-
-  // 🔥 RECONNECT SOCKET
-  socket = io();
-
-  socket.on('connect', () => {
-    console.log('Connected, joining room...');
+    const username = usernameInput.value.trim();
+    const room = roomInput.value.trim();
+    if (!username || !room) {
+      showJoinError('Username and room code required');
+      return;
+    }
+    joinError.textContent = '';
+    joinBtn.disabled = true;
+    joinBtn.querySelector('span').textContent = 'CONNECTING…';
     socket.emit('join-room', { username, room });
-  });
   }
 
   function showJoinError(msg) {
@@ -114,7 +105,7 @@
 
   function joinChat(room, usersList, messages) {
     currentRoom = room;
-    currentUsername = usernameInput.value  // Set by server? Wait, client doesn't have, use local
+    currentUsername = socket.username; // Set by server? Wait, client doesn't have, use local
     // Note: server sets socket.username but client needs to store
     joinScreen.classList.remove('active');
     chatScreen.classList.add('active');
@@ -294,10 +285,7 @@
   // UI actions
   leaveBtn.addEventListener('click', leaveRoom);
   clearBtn.addEventListener('click', () => socket.emit('clear-chat'));
-  menuToggle.addEventListener('click', (e) =>{
-    e.preventDefault();
-    toggleSidebar();
-  });
+  menuToggle.addEventListener('click', toggleSidebar);
 
   function leaveRoom() {
     socket.disconnect();
@@ -334,15 +322,4 @@
   // Init
   initSocket();
   messageInput.focus();
-
-  document.addEventListener('click',(e)
-        =>{
-          if(sidebar.classList.contains('open'))
-          {
-            if(!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-              sidebar.classList.remove('open');
-            }
-          }
-        });      
 })();
-
