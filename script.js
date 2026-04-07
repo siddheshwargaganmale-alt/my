@@ -94,8 +94,15 @@
     joinError.textContent = '';
     joinBtn.disabled = true;
     joinBtn.querySelector('span').textContent = 'CONNECTING…';
+    if (socket.connected) {
     socket.emit('join-room', { username, room });
+  } else {
+    socket.on('connect', () => {
+      socket.emit('join-room', { username, room });
+    });
   }
+  }
+  
 
   function showJoinError(msg) {
     joinError.textContent = msg;
@@ -105,7 +112,7 @@
 
   function joinChat(room, usersList, messages) {
     currentRoom = room;
-    currentUsername = socket.username; // Set by server? Wait, client doesn't have, use local
+    currentUsername = usernameInput.value  // Set by server? Wait, client doesn't have, use local
     // Note: server sets socket.username but client needs to store
     joinScreen.classList.remove('active');
     chatScreen.classList.add('active');
