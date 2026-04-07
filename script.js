@@ -325,5 +325,15 @@
   // Init
   initSocket();
   messageInput.focus();
+
+  document.addEventListener('click',(e)
+        =>{
+          if(sidebar.classList.contains('open'))
+          {
+            if(!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+              sidebar.classList.remove('open');
+            }
+          }
+        });      
 })();
 
