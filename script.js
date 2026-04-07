@@ -85,22 +85,26 @@
   });
 
   function joinRoom() {
-    const username = usernameInput.value.trim();
-    const room = roomInput.value.trim();
-    if (!username || !room) {
-      showJoinError('Username and room code required');
-      return;
-    }
-    joinError.textContent = '';
-    joinBtn.disabled = true;
-    joinBtn.querySelector('span').textContent = 'CONNECTING…';
-    if (socket.connected) {
+  const username = usernameInput.value.trim();
+  const room = roomInput.value.trim();
+
+  if (!username || !room) {
+    showJoinError('Username and room code required');
+    return;
+  }
+
+  joinError.textContent = '';
+  joinBtn.disabled = true;
+  joinBtn.querySelector('span').textContent = 'CONNECTING…';
+
+  // 🔥 RECONNECT SOCKET
+  socket = io();
+
+  socket.on('connect', () => {
+    console.log('Connected, joining room...');
     socket.emit('join-room', { username, room });
-  } else {
-    socket.on('connect', () => {
-      socket.emit('join-room', { username, room });
-    });
-    }
+  });
+  }
 
   function showJoinError(msg) {
     joinError.textContent = msg;
