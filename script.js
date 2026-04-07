@@ -100,9 +100,7 @@
     socket.on('connect', () => {
       socket.emit('join-room', { username, room });
     });
-  }
-  }
-  
+    }
 
   function showJoinError(msg) {
     joinError.textContent = msg;
