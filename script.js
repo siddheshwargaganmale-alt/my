@@ -285,7 +285,10 @@
   // UI actions
   leaveBtn.addEventListener('click', leaveRoom);
   clearBtn.addEventListener('click', () => socket.emit('clear-chat'));
-  menuToggle.addEventListener('click', toggleSidebar);
+  menuToggle.addEventListener('click', (e) =>{
+    e.preventDefault();
+    toggleSidebar();
+  });
 
   function leaveRoom() {
     socket.disconnect();
