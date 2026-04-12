@@ -27,6 +27,8 @@
   const clearBtn = document.getElementById('clear-btn');
   const menuToggle = document.getElementById('menu-toggle');
   const sidebar = document.querySelector('.sidebar');
+  const mobileOverlay = document.getElementById('mobile-overlay');
+  
 
   let socket = null;
   let currentRoom = null;
@@ -287,15 +289,28 @@
   clearBtn.addEventListener('click', () => socket.emit('clear-chat'));
   menuToggle.addEventListener('click', toggleSidebar);
 
+  if (mobileOverlay) {
+    mobileOverlay.addEventListener('click', toggleSidebar);
+  }
+
   function leaveRoom() {
     socket.disconnect();
     location.reload();
   }
 
   function toggleSidebar() {
+    const chatScreen = document.getElementById('chat-screen');
+    chatScreen.classList.toggle('sidebar-open');
     sidebar.classList.toggle('open');
+    
+    if (mobileOverlay) {
+      if (chatScreen.classList.contains('sidebar-open')) {
+        mobileOverlay.style.display = 'block';
+      } else {
+        mobileOverlay.style.display = 'none';
+      }
+    }
   }
-
   // Image overlay
   let overlay = null;
   window.showImageOverlay = function(src) {
